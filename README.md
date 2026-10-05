@@ -13,7 +13,7 @@
 ---
 
 ## 📈 Посилання на ресурси
-* **Інтерактивний дашборд у Tableau Public:** [Переглянути Tableau Dashboard]([ВСТАВТЕ_ПОСИЛАННЯ_НА_ТАБЛО](https://public.tableau.com/app/profile/viktoriia.maslianchuk/viz/ABTestingSignificance/Dashboard1?publish=yes))
+* **Інтерактивний дашборд у Tableau Public:** [Переглянути Tableau Dashboard]((https://public.tableau.com/app/profile/viktoriia.maslianchuk/viz/ABTestingSignificance/Dashboard1?publish=yes)))
 * 🐍 **Google Colab Notebook:** [Переглянути Python Ноутбук](ВСТАВТЕ_ПОСИЛАННЯ_НА_COLAB)
 * 📁 **CSV з розрахованими результатами:** [Завантажити results.csv](ВСТАВТЕ_ПОСИЛАННЯ_НА_CSV)[cite: 1]
 
