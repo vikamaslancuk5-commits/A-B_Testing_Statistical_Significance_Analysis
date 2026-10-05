@@ -200,9 +200,10 @@ SELECT
     accounts.test_group,
     'new account' AS event_name,
     new_account_cnt AS value
-FROM accounts;
-
+FROM accounts
+```
 </details>
+
 
 ---
 
