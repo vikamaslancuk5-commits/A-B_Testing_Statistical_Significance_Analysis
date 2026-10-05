@@ -202,6 +202,8 @@ SELECT
     new_account_cnt AS value
 FROM accounts;
 
+</details>
+
 ---
 
 ## Ключові метрики та методологія
