@@ -29,7 +29,9 @@
 
 > *Нижче наведено приклад інтерактивного дашборду з підсвічуванням статистично значущих метрик.*
 
-![Tableau Dashboard Preview](ВСТАВТЕ_ПОСИЛАННЯ_НА_ФОТО_АБО_ШЛЯХ_ДО_ФАЙЛУ_В_РЕПОЗИТОРІЇ) <!-- Наприклад: ./images/dashboard_preview.png -->
+<p align="center">
+  <img src="./dashboard.png" alt="Tableau Dashboard Preview" width="800">
+</p>
 
 ---
 
