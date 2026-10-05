@@ -224,9 +224,10 @@ FROM accounts
 
 ---
 
-## Python Скрипт (Обчислення у циклі)
+## Python Скрипт 
 
-Нижче наведено фрагмент коду, використаного для ітеративного розрахунку статистичної значущості для кожного тесту та метрики:
+<details>
+<summary><b>Натисніть тут, щоб переглянути фрагмент коду, використаного для ітеративного розрахунку статистичної значущості для кожного тесту та метрики </b></summary>
 
 ```python
 from google.colab import drive
@@ -234,40 +235,50 @@ import pandas as pd
 import numpy as np
 from statsmodels.stats.proportion import proportions_ztest
 
-# Очищення назв подій
+drive.mount('/content/drive')
+file_path = '/content/drive/MyDrive/Mate/AB-test.csv'
+df = pd.read_csv(file_path)
+
+# Очищаємо назви подій
 df['event_name_clean'] = df['event_name'].astype(str).str.strip().str.lower()
 
-metrics = { 
-    'add_payment_info / session':  ('add_payment_info', 'session', 'add_payment_info'), 
-    'add_shipping_info / session': ('add_shipping_info', 'session', 'add_shipping_info'), 
-    'begin_checkout / session':    ('begin_checkout',    'session', 'begin_checkout'), 
-    'new_accounts / session':      ('new accounts',      'session', 'new account') 
+
+metrics = {
+    'add_payment_info / session':  ('add_payment_info', 'session', 'add_payment_info'),
+    'add_shipping_info / session': ('add_shipping_info', 'session', 'add_shipping_info'),
+    'begin_checkout / session':    ('begin_checkout',    'session', 'begin_checkout'),
+    'new_accounts / session':      ('new accounts',      'session', 'new account')
 }
+
 
 results = []
 
-for test_number in df['test'].unique():
+# 4. Отримуємо ВСІ унікальні тести з файлу (1, 2, 3, 4...)
+target_tests = sorted(df['test'].unique())
+
+for test_number in target_tests:
     test_data = df[df['test'] == test_number]
-    ctr_data = test_data[test_data['test_group'] == 1] # Контроль
-    var_data = test_data[test_data['test_group'] == 2] # Тест
+
+    ctr_data = test_data[test_data['test_group'] == 1]
+    var_data = test_data[test_data['test_group'] == 2]
 
     for metric_name, (num_display, den_display, num_search) in metrics.items():
-        den_search = 'session'
+        den_search = 'sesion'
 
-        # Тестова група (Group 2)
+        #  (Test / Group 2)
         denominator_count_test = var_data[var_data['event_name_clean'] == den_search]['value'].sum()
         numerator_count_test = var_data[var_data['event_name_clean'] == num_search]['value'].sum()
         conversion_rate_test = numerator_count_test / denominator_count_test if denominator_count_test > 0 else np.nan
 
-        # Контрольна група (Group 1)
+        #  КОНТРОЛЬНА ГРУПА (Control / Group 1)
         denominator_count_control = ctr_data[ctr_data['event_name_clean'] == den_search]['value'].sum()
         numerator_count_control = ctr_data[ctr_data['event_name_clean'] == num_search]['value'].sum()
         conversion_rate_control = numerator_count_control / denominator_count_control if denominator_count_control > 0 else np.nan
 
-        # Відносна зміна метрики (%)
+        #  ВІДНОСНА ЗМІНА МЕТРИКИ (%)
         metric_change = (conversion_rate_test - conversion_rate_control) / conversion_rate_control * 100 if conversion_rate_control and conversion_rate_control > 0 else np.nan
 
-        # Z-тест
+        #  Z-ТЕСТ
         if denominator_count_test > 0 and denominator_count_control > 0:
             z_stat, p_value = proportions_ztest(
                 count=[numerator_count_test, numerator_count_control],
@@ -294,4 +305,12 @@ for test_number in df['test'].unique():
             "significant": is_significant
         })
 
+#  Формування та збереження DataFrame
 df_results = pd.DataFrame(results)
+df_results.to_csv('results.csv', index=False, sep=',', encoding='utf-8')
+output_path = '/content/drive/MyDrive/Mate/results.csv'
+df_results.to_csv(output_path, index=False, encoding='utf-8-sig')
+
+df_results.head()
+```
+</details>
